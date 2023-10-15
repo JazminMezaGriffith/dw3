@@ -40,11 +40,11 @@
         </div>
         @endif
 
-        @php
+        <!-- @php
         $vacio = isset($vacio) ? $vacio : false;
-        @endphp
-
-        @if ($vacio)
+        @endphp -->
+        
+        @if ($clientes->isEmpty())
         <div class="card">
             <div class="card-body">
                 <p class="card-text text-center">No se encontraron resultados para la búsqueda.</p>
@@ -99,6 +99,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {{ $clientes->links() }}
+        </div>
     </div>
     @endif
 </body>

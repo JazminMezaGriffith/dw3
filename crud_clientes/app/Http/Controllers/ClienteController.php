@@ -13,7 +13,7 @@ extends Controller
     public function index()
     {
         //Obtener datos por ORM Eloquent    
-        $clientes = Cliente::All();
+        // $clientes = Cliente::paginate(3);
         //Obtener datos por el metodo get
         //$clientes=DB::table('clientes')
         //->get();
@@ -73,11 +73,18 @@ extends Controller
         return view('clientes.ver', compact('clientes'));
     }
 
-    public function buscar(Request $request)
-    {
+    public function buscar(Request $request) {
         $buscar = $request->input('buscar');
-        $clientes = Cliente::where('nombre', 'like', "%$buscar%")->get();
+        $clientes = Cliente::where(function ($query) use ($buscar) {
+        $query->where('nombre', 'like', "%$buscar%")
+            ->orWhere('apellido', 'like', "%$buscar%")
+            ->orWhere('edad', 'like', "$buscar")
+            ->orWhere('ci', 'like', "$buscar")
+            ->orWhere('correo', 'like', "$buscar")
+            ->orWhere('fecha_nac', 'like', "$buscar")
+            ->orWhere('estado', 'like', "$buscar");
+        })->paginate(3);
         $vacio = $clientes->isEmpty();
-        return view('clientes.index', compact('buscar', 'clientes', 'vacio'));
+        return view('clientes.index', compact('clientes', 'vacio'));
     }
 }
