@@ -13,7 +13,7 @@ extends Controller
     public function index()
     {
         //Obtener datos por ORM Eloquent    
-        // $clientes = Cliente::paginate(3);
+        $clientes = Cliente::paginate(3);
         //Obtener datos por el metodo get
         //$clientes=DB::table('clientes')
         //->get();
