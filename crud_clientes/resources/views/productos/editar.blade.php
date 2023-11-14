@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Registro de Cliente</title>
+    <title>Formulario de Edición de Producto</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/estilos.css')}}">
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/popper.js')}}"></script>
@@ -16,80 +16,67 @@
  --}}</head>
 
 <header class="p-2 fixed-top bg-light">
-    @include('clientes.menu')
-    <h2 class="text-center mt-2">Formulario de Registro de Cliente</h2>
+    {{-- @include('productos.menu') --}}
+    <h2 class="text-center mt-2">Formulario de Edición de Productos</h2>
 </header>
 
 <body>
     <div class="container p-4" style="margin-top: 110px;">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-            <li>{{$error}}</li>
-            @endforeach
-        </div>
-        @endif
-
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-center font-weight-bold">Ingrese los datos del cliente a crear</div>
+                    <div class="card-header text-center font-weight-bold">Edite los datos del producto existente</div>
 
                     <div class="card-body">
-                        <form method="POST" action="/crear">
+                        <form method="post" action="{{route('actualizar',['id'=>$productos->id])}}">
                             @csrf <!-- Campo CSRF -->
 
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" >
+                                <input type="text" name="nombre" id="nombre" class="form-control" value="{{$productos->nombre}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="apellido">Apellido:</label>
-                                <input type="text" name="apellido" id="apellido" class="form-control" >
+                                <label for="descripcion">Descripcion:</label>
+                                <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{$productos->descripcion}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="edad">Edad:</label>
-                                <input type="number" name="edad" id="edad" class="form-control" >
+                                <label for="marca">Marca:</label>
+                                <input type="text" name="marca" id="marca" class="form-control" value="{{$productos->marca}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="ci">CI:</label>
-                                <input type="text" name="ci" id="ci" class="form-control" >
+                                <label for="stock">Stock:</label>
+                                <input type="number" name="stock" id="stock" class="form-control" value="{{$productos->stock}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="correo">Correo Electrónico:</label>
-                                <input type="email" name="correo" id="correo" class="form-control" >
+                                <label for="precio">Precio:</label>
+                                <input type="number" name="precio" id="precio" class="form-control" value="{{$productos->precio}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="fecha_nac">Fecha de Nacimiento:</label>
-                                <input type="date" name="fecha_nac" id="fecha_nac" class="form-control" >
+                                <label for="iva">IVA:</label>
+                                <input type="text" name="iva" id="iva" class="form-control" value="{{$productos->iva}}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stock_min">Stock mínimo:</label>
+                                <input type="number" name="stock_min" id="stock_min" class="form-control" value="{{$productos->stock_min}}" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="estado">Estado:</label>
-                                <select name="estado" id="estado" class="form-control" >
-                                    <option value="activo">Activo</option>
-                                    <option value="inactivo">Inactivo</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_cargo">Cargo:</label>
-                                <select name="id_cargo" id="id_cargo" class="form-control" >
-                                    <option value="opcion">-Seleccione una opcion-</option>
-                                    @foreach($cargos as $id => $nombre)
-                                    <option value="{{$id}}">{{$nombre}}</option>
-                                    @endforeach
+                                <select name="estado" id="estado" class="form-control">
+                                    <option value="Activo" {{ $productos->estado === 'Activo' ? 'selected' : '' }}>Activo</option>
+                                    <option value="Inactivo" {{ $productos->estado === 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
                                 </select>
                             </div>
 
                             <div class="form-group text-center pt-4">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
-                                <a href="{{url('clientes/index') }}" class="btn btn-danger">Cancelar</a>
+                                <a href="{{url('productos/index') }}" class="btn btn-danger">Cancelar</a>
                             </div>
                         </form>
                     </div>

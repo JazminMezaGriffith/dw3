@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Models\Cargo;
 
 class ClienteController
 extends Controller
@@ -26,6 +28,13 @@ extends Controller
 
     public function crear(Request $request)
     {
+        /* $request->validate([
+            'nombre'=>'required|String',
+            'apellido'=>'required',
+            'edad'=>'required|integer',
+            'ci'=>'required|integer|unique:clientes,ci'
+        ]); */
+        
         Cliente::create([
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
@@ -34,13 +43,15 @@ extends Controller
             'correo' => $request->input('correo'),
             'fecha_nac' => $request->input('fecha_nac'),
             'estado' => $request->input('estado'),
+            'id_cargo' => $request->input('id_cargo'),
         ]);
         return redirect()->route('index')->with('success', 'Se creo correctamente!');
     }
 
     public function formulario()
     {
-        return view('clientes.formulario');
+        $cargos = Cargo::pluck('nombre', 'id');
+        return view('clientes.formulario', compact('cargos'));
     }
     public function eliminar($id)
     {
@@ -51,7 +62,8 @@ extends Controller
     public function editar($id)
     {
         $clientes = Cliente::find($id);
-        return view('clientes.editar', compact('clientes'));
+        $cargos = Cargo::pluck('nombre','id');
+        return view('clientes.editar', compact('clientes', 'cargos'));
     }
     public function actualizar(Request $request, $id)
     {
@@ -63,6 +75,7 @@ extends Controller
         $clientes->correo = $request->input('correo');
         $clientes->fecha_nac = $request->input('fecha_nac');
         $clientes->estado = $request->input('estado');
+        $clientes->id_cargo = $request->input('id_cargo');
         $clientes->save();
         return redirect()->route('index');
     }
@@ -86,5 +99,11 @@ extends Controller
         })->paginate(3);
         $vacio = $clientes->isEmpty();
         return view('clientes.index', compact('clientes', 'vacio'));
+    }
+
+    public function generarPDF(){
+        $clientes = Cliente::all();
+        $pdf=PDF::loadView('clientes.pdf', compact('clientes'));
+        return $pdf->download('clientes.pdf');
     }
 }

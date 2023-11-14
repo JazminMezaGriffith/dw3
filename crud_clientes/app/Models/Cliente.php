@@ -17,6 +17,10 @@ class Cliente extends Model
     	'ci',
     	'correo',
     	'fecha_nac',
-    	'estado'	
+    	'estado',
+		'id_cargo'	
     ];
+	public function cargo(){
+		return $this->belongsTo('App\Models\Cargo','id_cargo');
+	}
 }

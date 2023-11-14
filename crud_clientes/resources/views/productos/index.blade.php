@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Clientes</title>
+    <title>Listado de productos</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/estilos.css')}}">
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/popper.js')}}"></script>
@@ -16,12 +16,10 @@
 </head>
 
 <header class="p-3 fixed-top bg-light">
-    @include('clientes.menu')
     <div class="container">
-        <h1 class="text-center mt-2">Listado de Clientes</h1>
+        <h1 class="text-center mt-2">Listado de productos</h1>
         <div class="d-flex justify-content-between align-items-center mb-1">
-            {{-- <a href="{{url('clientes/formulario') }}" class="btn btn-primary">Nuevo</a> --}}
-            <a href="{{url('clientes.pdf') }}" class="btn btn-danger">PDF</a>
+            <a href="{{url('productos/formulario') }}" class="btn btn-primary">Nuevo</a>
             <form action="{{ route('buscar') }}" method="GET" class="mb-12">
                 <div class="input-group w-90">
                     <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -46,62 +44,60 @@
         </div>
         @endif
 
-        <!-- @php
+        {{-- @php
         $vacio = isset($vacio) ? $vacio : false;
-        @endphp -->
+        @endphp --}}
         
-        @if ($clientes->isEmpty())
+        {{-- @if ($productos->isEmpty())
         <div class="card">
             <div class="card-body">
                 <p class="card-text text-center">No se encontraron resultados para la búsqueda.</p>
             </div>
         </div>
-        @else
+        @else --}}
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    {{-- <th>ID</th> --}}
+                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Edad</th>
-                    <th>CI</th>
-                    <th>Correo</th>
-                    <th>Fecha de Nacimiento</th>
+                    <th>Descripcion</th>
+                    <th>Marca</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>IVA</th>
+                    <th>Stock mínimo</th>
                     <th>Estado</th>
-                    <th>Cargo</th>
                     <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($clientes as $cliente)
+                @foreach ($productos as $producto)
                 <tr>
-                    {{-- <td>{{ $cliente->id ?? 'NN'}}</td> --}}
-                    <td>{{ $cliente->nombre ?? 'NN' }}</td>
-                    <td>{{ $cliente->apellido ?? 'NN' }}</td>
-                    <td>{{ $cliente->edad ?? 'NN'}}</td>
-                    <td>{{ $cliente->ci ?? 'NN'}}</td>
-                    <td>{{ $cliente->correo ?? 'NN' }}</td>
-                    <td>{{ $cliente->fecha_nac ?? 'NN'}}</td>
+                    <td>{{ $producto->id ?? 'NN'}}</td>
+                    <td>{{ $producto->nombre ?? 'NN' }}</td>
+                    <td>{{ $producto->descripcion ?? 'NN' }}</td>
+                    <td>{{ $producto->marca ?? 'NN'}}</td>
+                    <td>{{ $producto->stock ?? 'NN'}}</td>
+                    <td>{{ $producto->precio ?? 'NN' }}</td>
+                    <td>{{ $producto->iva ?? 'NN'}}</td>
+                    <td>{{ $producto->stock_min ?? 'NN'}}</td>
                     <td>
-                        @if ($cliente->estado == 'Activo')
-                        <span class="badge badge-primary">{{$cliente->estado}}</span>
-                        @elseif ($cliente->estado == 'activo')
-                        <span class="badge badge-primary">{{$cliente->estado}}</span>
+                        @if ($producto->estado == 'Activo')
+                        <span class="badge badge-primary">{{$producto->estado}}</span>
+                        @elseif ($producto->estado == 'activo')
+                        <span class="badge badge-primary">{{$producto->estado}}</span>
                         @else
-                        <span class="badge badge-warning">{{$cliente->estado}}</span>
+                        <span class="badge badge-warning">{{$producto->estado}}</span>
                         @endif
                     </td>
-                    <td><strong>Nombre: </strong>{{ $cliente->cargo->nombre}} <br>
-                        <strong>Sector: </strong>{{ $cliente->cargo->sector}}
-                    </td>
                     <td>
-                        <a href="{{ route('eliminar', ['id' => $cliente->id]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar a este cliente?');" class="btn btn-danger">
+                        <a href="{{ route('eliminar', ['id' => $producto->id]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar a este producto?');" class="btn btn-danger">
                             Eliminar
                         </a>
-                        <a href="{{ route('editar', ['id' => $cliente->id]) }}" class="btn btn-warning">
+                        <a href="{{ route('editar', ['id' => $producto->id]) }}" class="btn btn-warning">
                             Editar
                         </a>
-                        <a href="{{ route('ver', ['id' => $cliente->id]) }}" class="btn btn-info">
+                        <a href="{{ route('ver', ['id' => $producto->id]) }}" class="btn btn-info">
                             Ver
                         </a>
                     </td>
@@ -109,11 +105,9 @@
                 @endforeach
             </tbody>
         </table>
-        <div>
-            {{ $clientes->links() }}
-        </div>
+        
     </div>
-    @endif
+    {{-- @endif --}}
 </body>
 
 </html>

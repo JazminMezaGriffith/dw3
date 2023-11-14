@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clientes', function (Blueprint $table) {
-            $table->id();
+        Schema::create('productos', function (Blueprint $table) {
+            $table->id('id');
             $table->text('nombre');
-            $table->text('apellido');
-            $table->integer('edad');
-            $table->integer('ci');
-            $table->text('correo');
-            $table->date('fecha_nac');
+            $table->text('descripcion');
+            $table->text('marca');
+            $table->integer('stock');
+            $table->integer('precio');
+            $table->text('iva');
+            $table->integer('stock_min');
             $table->text('estado');
-            $table->unsignedBigInteger('id_cargo');
-            $table->foreign('id_cargo')->references('id')->on('cargos');
-            $table->timestamps();
         });
     }
 
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clientes');
+        //
     }
 };

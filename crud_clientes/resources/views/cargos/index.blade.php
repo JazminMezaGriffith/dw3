@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Clientes</title>
+    <title>Listado de cargos</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/estilos.css')}}">
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/popper.js')}}"></script>
@@ -18,10 +18,9 @@
 <header class="p-3 fixed-top bg-light">
     @include('clientes.menu')
     <div class="container">
-        <h1 class="text-center mt-2">Listado de Clientes</h1>
+        <h1 class="text-center mt-2">Listado de cargos</h1>
         <div class="d-flex justify-content-between align-items-center mb-1">
-            {{-- <a href="{{url('clientes/formulario') }}" class="btn btn-primary">Nuevo</a> --}}
-            <a href="{{url('clientes.pdf') }}" class="btn btn-danger">PDF</a>
+            <a href="{{url('cargos/formulario') }}" class="btn btn-primary">Nuevo</a>
             <form action="{{ route('buscar') }}" method="GET" class="mb-12">
                 <div class="input-group w-90">
                     <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -45,12 +44,8 @@
             {{session('success')}}
         </div>
         @endif
-
-        <!-- @php
-        $vacio = isset($vacio) ? $vacio : false;
-        @endphp -->
         
-        @if ($clientes->isEmpty())
+        @if ($cargos->isEmpty())
         <div class="card">
             <div class="card-body">
                 <p class="card-text text-center">No se encontraron resultados para la búsqueda.</p>
@@ -60,48 +55,31 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    {{-- <th>ID</th> --}}
+                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Edad</th>
-                    <th>CI</th>
-                    <th>Correo</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Estado</th>
-                    <th>Cargo</th>
+                    <th>Descripción</th>
+                    <th>Sector</th>
+                    <th>Empresa</th>
                     <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($clientes as $cliente)
+                @foreach ($cargos as $cargo)
                 <tr>
-                    {{-- <td>{{ $cliente->id ?? 'NN'}}</td> --}}
-                    <td>{{ $cliente->nombre ?? 'NN' }}</td>
-                    <td>{{ $cliente->apellido ?? 'NN' }}</td>
-                    <td>{{ $cliente->edad ?? 'NN'}}</td>
-                    <td>{{ $cliente->ci ?? 'NN'}}</td>
-                    <td>{{ $cliente->correo ?? 'NN' }}</td>
-                    <td>{{ $cliente->fecha_nac ?? 'NN'}}</td>
+                    <td>{{ $cargo->id ?? 'NN'}}</td>
+                    <td>{{ $cargo->nombre ?? 'NN' }}</td>
+                    <td>{{ $cargo->descripcion ?? 'NN' }}</td>
+                    <td>{{ $cargo->sector ?? 'NN'}}</td>
+                    <td>{{ $cargo->empresa ?? 'NN'}}</td>
+                    
                     <td>
-                        @if ($cliente->estado == 'Activo')
-                        <span class="badge badge-primary">{{$cliente->estado}}</span>
-                        @elseif ($cliente->estado == 'activo')
-                        <span class="badge badge-primary">{{$cliente->estado}}</span>
-                        @else
-                        <span class="badge badge-warning">{{$cliente->estado}}</span>
-                        @endif
-                    </td>
-                    <td><strong>Nombre: </strong>{{ $cliente->cargo->nombre}} <br>
-                        <strong>Sector: </strong>{{ $cliente->cargo->sector}}
-                    </td>
-                    <td>
-                        <a href="{{ route('eliminar', ['id' => $cliente->id]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar a este cliente?');" class="btn btn-danger">
+                        <a href="{{ route('eliminar', ['id' => $cargo->id]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar a este cargo?');" class="btn btn-danger">
                             Eliminar
                         </a>
-                        <a href="{{ route('editar', ['id' => $cliente->id]) }}" class="btn btn-warning">
+                        <a href="{{ route('editar', ['id' => $cargo->id]) }}" class="btn btn-warning">
                             Editar
                         </a>
-                        <a href="{{ route('ver', ['id' => $cliente->id]) }}" class="btn btn-info">
+                        <a href="{{ route('ver', ['id' => $cargo->id]) }}" class="btn btn-info">
                             Ver
                         </a>
                     </td>
@@ -110,7 +88,7 @@
             </tbody>
         </table>
         <div>
-            {{ $clientes->links() }}
+            {{ $cargos->links() }}
         </div>
     </div>
     @endif

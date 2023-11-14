@@ -19,37 +19,11 @@
     @include('clientes.menu')
     <div class="container">
         <h1 class="text-center mt-2">Listado de Clientes</h1>
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            {{-- <a href="{{url('clientes/formulario') }}" class="btn btn-primary">Nuevo</a> --}}
-            <a href="{{url('clientes.pdf') }}" class="btn btn-danger">PDF</a>
-            <form action="{{ route('buscar') }}" method="GET" class="mb-12">
-                <div class="input-group w-90">
-                    <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
     </div>
 </header>
 
 <body>
     <div class="container p-4" style="margin-top: 170px;">
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{session('success')}}
-        </div>
-        @endif
-
-        <!-- @php
-        $vacio = isset($vacio) ? $vacio : false;
-        @endphp -->
-        
         @if ($clientes->isEmpty())
         <div class="card">
             <div class="card-body">
@@ -69,7 +43,6 @@
                     <th>Fecha de Nacimiento</th>
                     <th>Estado</th>
                     <th>Cargo</th>
-                    <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,24 +67,10 @@
                     <td><strong>Nombre: </strong>{{ $cliente->cargo->nombre}} <br>
                         <strong>Sector: </strong>{{ $cliente->cargo->sector}}
                     </td>
-                    <td>
-                        <a href="{{ route('eliminar', ['id' => $cliente->id]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar a este cliente?');" class="btn btn-danger">
-                            Eliminar
-                        </a>
-                        <a href="{{ route('editar', ['id' => $cliente->id]) }}" class="btn btn-warning">
-                            Editar
-                        </a>
-                        <a href="{{ route('ver', ['id' => $cliente->id]) }}" class="btn btn-info">
-                            Ver
-                        </a>
-                    </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        <div>
-            {{ $clientes->links() }}
-        </div>
     </div>
     @endif
 </body>
