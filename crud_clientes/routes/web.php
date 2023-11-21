@@ -48,7 +48,7 @@ Route::get('/ver/{id}',[ProductoController::class,'ver'])->name('ver');
 Route::get('/eliminar/{id}',[ProductoController::class,'eliminar'])->name('eliminar');
 Route::get('/productos/buscar',[ProductoController::class,'buscar'])->name('buscar'); */
 
-Route::get('clientes.pdf',[ClienteController::class,'generarPDF'])->name('clientes.pdf');
+Route::get('clientes-pdf',[ClienteController::class,'generarPDF'])->name('clientes-pdf');
 
 Route::get('cargos/index',[CargoController::class,'index'])->name('index');  
 Route::get('cargos/formulario',[CargoController::class,'formulario'])->name('formulario'); 
