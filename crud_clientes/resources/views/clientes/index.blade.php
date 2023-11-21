@@ -21,7 +21,7 @@
         <h1 class="text-center mt-2">Listado de Clientes</h1>
         <div class="d-flex justify-content-between align-items-center mb-1">
             {{-- <a href="{{url('clientes/formulario') }}" class="btn btn-primary">Nuevo</a> --}}
-            <a href="{{url('clientes-pdf') }}" class="btn btn-danger">PDF</a>
+            <a href="{{url('clientes.pdf') }}" class="btn btn-danger">PDF</a>
             <form action="{{ route('buscar') }}" method="GET" class="mb-12">
                 <div class="input-group w-90">
                     <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre" aria-label="Recipient's username" aria-describedby="basic-addon2">
